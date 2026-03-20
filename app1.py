@@ -38,6 +38,7 @@ class API:
 
 app = API()
 
+
 @app.route("/home")
 def  home(request, response):
     response.text = "Привет с главной страницы"
