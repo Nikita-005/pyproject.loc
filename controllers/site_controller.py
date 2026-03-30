@@ -1,18 +1,15 @@
+from controllers.controller import Controller
 
 
-class SiteController:
+
+class SiteController(Controller):
+
     def index(self, request, response):
-        response.text = '''<html>
-    <head>
-        <title>Главная</title>
 
-        <link href="css/main.css" type="text/css" rel="stylesheet">
-    </head>
+        response.text = self.view.render_html('site/index.html', {'title' : 'MVC фреймворк', 'h1' : 'Главная страница'})
 
-    <body>
-        <h1>The name of the framework is {{ name }}</h1>
-    </body>
-
-</html>'''
     def about(self, request, response):
-        response.text = "Cтраница о нас"
+        response.text = self.view.render_html('site/about.html', {'title' : 'MVC фреймворк - о нас', 'h1' : 'Страница о нас'})
+
+    def hello(self, request, response, user_name):
+        response.text = self.view.render_html('site/hello.html', {'title' : 'MVC фреймворк - приветствие', 'h1' : 'Привет!', 'user' : user_name})

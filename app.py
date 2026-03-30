@@ -1,3 +1,6 @@
+import os
+import re
+
 from webob import Request, Response
 from whitenoise import WhiteNoise
 import routes
@@ -20,11 +23,12 @@ class API:
     def handle_request(self, request):
         response = Response()
 
-        handler = self.find_handler(request_path=request.path)
-        if handler is not None:
-            controller = handler[0]
+        result = self.find_handler_re(request_path=request.path)
+        if result is not None:
+            handler, params = result
+            controller = handler[0]()
             action = handler[1]
-            action(controller, request, response)
+            action(controller, request, response, *params)
         else:
             self.default_response(response)
 
@@ -34,6 +38,14 @@ class API:
         for path, handler in self.routes.items():
             if path == request_path:
                 return handler
+
+    def find_handler_re(self, request_path):
+        for path, handler in self.routes.items():
+            match = re.search(path, request_path)
+            if match is not None:
+                return handler, match.groups()
+
+
     def default_response(self, response):
         response.status_code = 404
         response.text = "Not found"

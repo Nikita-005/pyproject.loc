@@ -1,0 +1,11 @@
+<h1>{{h1}}</h1>
+<ul>
+{% for article in articles %}
+    <li class="article">
+        <h2>{{ article.name }}</h2>
+        <p>{{ article.text }}</p>
+        <a href="article/{{article.id}}">Подробнее</a>
+    </li>
+    <hr>
+{% endfor %}
+</ul>
