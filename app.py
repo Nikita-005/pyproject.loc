@@ -3,6 +3,9 @@ import re
 
 from webob import Request, Response
 from whitenoise import WhiteNoise
+from exceptions import NotFoundException
+from exceptions import UnauthorizedException
+from views.view import View
 import routes
 
 class API:
@@ -22,15 +25,22 @@ class API:
 
     def handle_request(self, request):
         response = Response()
+        try:
+            result = self.find_handler_re(request_path=request.path)
+            if result is None:
+                raise NotFoundException('Страница не найдена')
 
-        result = self.find_handler_re(request_path=request.path)
-        if result is not None:
             handler, params = result
-            controller = handler[0]()
+            controller = handler[0](request)
             action = handler[1]
             action(controller, request, response, *params)
-        else:
-            self.default_response(response)
+
+        except NotFoundException as e:
+            response.status_code =404
+            response.text = View('default').render_html('errors/404.html', {'error' : e})
+        except UnauthorizedException as e:
+            response.status_code =401
+            response.text = View('default').render_html('errors/401.html', {'error' : e})
 
         return response
 

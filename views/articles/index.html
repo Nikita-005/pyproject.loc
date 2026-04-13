@@ -1,11 +1,21 @@
-<h1>{{h1}}</h1>
-<ul>
+<h1 class="error">{{h1}}</h1>
+<p><a href="/articles/add">Написать статью</a></p>
+<ul class="row list-unstyled m-3">
 {% for article in articles %}
-    <li class="article">
-        <h2>{{ article.name }}</h2>
-        <p>{{ article.text }}</p>
-        <a href="article/{{article.id}}">Подробнее</a>
+    <li class="article col-sm-6 ">
+        <div class="card m-3">
+            <div class="card-body">
+                <h2 class="card-title">{{ article.get_name() }}</h2>
+                {% if article.get_img() %}
+                    <img src="{{article.get_img()}}" width="200px" alt="">
+                {% endif %}
+                <p>{{ article.get_text() }}</p>
+                <p>{{ article.get_author().get_nickname() }}</p>
+
+                <p>{{ article.get_id() }}</p>
+                <a href="article/{{article.get_id()}}">Подробнее</a>
+            </div>
+        </div>
     </li>
-    <hr>
 {% endfor %}
 </ul>

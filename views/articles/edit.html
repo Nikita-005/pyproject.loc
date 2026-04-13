@@ -1,0 +1,20 @@
+<h1>Редактирование статьи: {{article.name}}</h1>
+
+<a href="/articles">Все статьи</a>
+<br>
+<br>
+<div class="m-3">
+    <form action="" method="POST">
+        <div class="mb-3">
+            <label for="inputName" class="form-label">Заголовок статьи</label>
+            <input type="text" class="form-control" id="inputName" name="name" value="{{article.get_name()}}">
+        </div>
+        <div class="mb-3">
+            <label for="textAreaText" class="form-label">Текст статьи </label>
+            <textarea class="form-control" id=""textAreaText name="text" rows="10">{{article.get_text()}}</textarea>
+        </div>
+        <input type="submit" class="btn btn-primary" value="Обновить">
+    </form>
+</div>
+<br>
+

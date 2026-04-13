@@ -1,4 +1,24 @@
-body {
-    color: red;
-    background-color: bisque;
+.main-ul {
+    list-style: none; 
+    display: flex;
+    gap: 5vw;
+    margin-left: auto;
+    margin-right: 4vw;
+    padding: 0;
+    list-style-type: none ;
+    list-style: none;
+}
+
+.header {
+    display: flex;
+    background-color: antiquewhite;
+    padding: 1vw;
+}
+
+.nav-a {
+    text-decoration: none;
+    color: black;
+}
+.error {
+    font-size: 5rem;
 }
