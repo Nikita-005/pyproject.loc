@@ -3,15 +3,18 @@ import re
 
 from webob import Request, Response
 from whitenoise import WhiteNoise
+from controllers.site_controller import SiteController
 from exceptions import NotFoundException
 from exceptions import UnauthorizedException
 from views.view import View
 import routes
 
+STATIC_DIR="assets"
+
 class API:
-    def __init__(self, static_dir="assets"):
+    def __init__(self):
         self.routes = routes.routes
-        self.whitenoise = WhiteNoise(self.wsgi_app, root=static_dir)
+
 
     def wsgi_app(self, environ, start_response):
         request = Request(environ)
@@ -21,10 +24,14 @@ class API:
         return response(environ, start_response)
 
     def __call__(self, environ, start_response):
+        self.whitenoise = WhiteNoise(self.wsgi_app, root = STATIC_DIR)
         return self.whitenoise(environ, start_response)
 
     def handle_request(self, request):
         response = Response()
+
+        controller = SiteController(request)
+
         try:
             result = self.find_handler_re(request_path=request.path)
             if result is None:
@@ -37,10 +44,10 @@ class API:
 
         except NotFoundException as e:
             response.status_code =404
-            response.text = View('default').render_html('errors/404.html', {'error' : e})
+            response.text = controller.view.render_html('errors/404.html', {'error' : e})
         except UnauthorizedException as e:
             response.status_code =401
-            response.text = View('default').render_html('errors/401.html', {'error' : e})
+            response.text = controller.view.render_html('errors/401.html', {'error' : e})
 
         return response
 

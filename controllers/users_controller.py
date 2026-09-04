@@ -27,7 +27,7 @@ class UsersController(Controller):
                 user = User.sign_in(request.POST)
                 if isinstance(user, User):
                     token = UserAuthService.create_token(user)
-                    response.set_cookie('token', token, 500, '/', False, httponly = True)
+                    response.set_cookie('token', token, None, '/', False, httponly = True)
                     response.status_code = 302
                     response.location = '/articles'
                     return

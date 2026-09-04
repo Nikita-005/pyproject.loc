@@ -99,6 +99,13 @@ class ActiveRecordEntity(metaclass = ABCMeta):
         return result
 
     @classmethod
+    def search(cls, column, search_string):
+        db = Db()
+        search_string = f"'%{search_string}%'"
+        table = cls.get_table_name()
+        return db.query(f"SELECT * FROM `{table}` WHERE {column} LIKE {search_string}", {}, cls)
+
+    @classmethod
     @abstractmethod
     def get_table_name():
         pass

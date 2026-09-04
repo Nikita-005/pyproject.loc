@@ -1,13 +1,15 @@
 <h1 class="error">{{h1}}</h1>
-<p><a href="/articles/add">Написать статью</a></p>
+<p class="d-flex g-3"><a class="mx-3" href="/articles/add">Написать статью</a> <a href="/articles/search">Поиск</a></p>
 <ul class="row list-unstyled m-3">
 {% for article in articles %}
     <li class="article col-sm-6 ">
-        <div class="card m-3">
+        <div class="card m-3 h">
             <div class="card-body">
                 <h2 class="card-title">{{ article.get_name() }}</h2>
                 {% if article.get_img() %}
-                    <img src="{{article.get_img()}}" width="200px" alt="">
+                    <div class="article-img_wrap">
+                        <img src="{{article.get_img()}}" width="200px" alt="">
+                    </div>
                 {% endif %}
                 <p>{{ article.get_text() }}</p>
                 <p>{{ article.get_author().get_nickname() }}</p>

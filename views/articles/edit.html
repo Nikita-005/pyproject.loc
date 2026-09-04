@@ -1,20 +1,38 @@
-<h1>Редактирование статьи: {{article.name}}</h1>
+<h1>Редактирование статьи: {{article.get_name()}}</h1>
 
-<a href="/articles">Все статьи</a>
+<a href="/article/{{article.get_id()}}">Назад</a>
 <br>
+{% if error %}
+    <p style="background-color: crimson;">{{ error }}</p>
+{% endif %}
 <br>
-<div class="m-3">
-    <form action="" method="POST">
+<div class="m-3 col-md-6">
+    <form action="" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="inputName" class="form-label">Заголовок статьи</label>
-            <input type="text" class="form-control" id="inputName" name="name" value="{{article.get_name()}}">
+            <input type="text" class="form-control" id="inputName" name="name"
+                {% if article_data %}
+                    value="{{article_data.name}}"
+                {%  else %}
+                    value="{{article.get_name()}}"
+                {%  endif %}
+            >
         </div>
         <div class="mb-3">
             <label for="textAreaText" class="form-label">Текст статьи </label>
-            <textarea class="form-control" id=""textAreaText name="text" rows="10">{{article.get_text()}}</textarea>
+            <textarea class="form-control" id=""textAreaText name="text" rows="10">
+                {% if article_data %}
+                    {{article_data.text}}
+                {%  else %}
+                    {{article.get_text()}}
+                {%  endif %}
+            </textarea>
         </div>
-        <input type="submit" class="btn btn-primary" value="Обновить">
+        <div class="mb-3">
+            <label for="inputName" class="form-label">Изображение</label>
+            <input type="file" class="form-control" id="inputImg" name="img">
+        </div>
+        <input type="submit" class="btn btn-primary" value="Отправить">
     </form>
 </div>
 <br>
-

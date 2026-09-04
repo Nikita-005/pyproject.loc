@@ -46,6 +46,37 @@ class Article(ActiveRecordEntity):
 
     @staticmethod
     def create(fields, img_file, author):
+        article = Article()
+        article.validate(fields, img_file)
+
+        article._name = fields['name']
+        article._text = fields['text']
+        article._author_id = author.get_id()
+
+        article.move_img_file(img_file)
+
+        article.save()
+        return article
+
+
+    def updateFromArray(self, fields, img_file):
+
+        self.validate(fields, img_file)
+
+
+        self._name = fields['name']
+        self._text = fields['text']
+        self.move_img_file(img_file)
+
+        self.save()
+        return self
+
+    @staticmethod
+    def search_by_name(search_string):
+        return __class__.search('name', search_string)
+
+    def validate(self, fields, img_file):
+        print(fields)
         if not fields['name']:
             raise InvalidArgumentException('не передано название статьи')
 
@@ -55,15 +86,10 @@ class Article(ActiveRecordEntity):
         if __class__.check_file_size(img_file, MAX_FILE_SIZE)[0] == False :
             raise InvalidArgumentException('Слишком большой файл! Должно быть не более 5МБ')
 
-
-        article = Article()
-        article._name = fields['name']
-        article._text = fields['text']
-        article._author_id = author.get_id()
-
+    def move_img_file(self, img_file):
         if img_file.filename:
             file_path = '/uploads/' +  img_file.filename
-            article._img = file_path
+            self._img = file_path
             file_path = 'assets' + file_path
             os.makedirs('assets/uploads', exist_ok=True)
             with open(file_path, 'wb') as f:
@@ -72,9 +98,6 @@ class Article(ActiveRecordEntity):
                     if not chunk:
                         break
                     f.write(chunk)
-
-        article.save()
-        return article
 
     @staticmethod
     def check_file_size(file_item, max_size):

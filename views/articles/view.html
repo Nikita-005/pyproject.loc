@@ -1,7 +1,17 @@
-<h1>{{article.get_name()}}</h1>
-{% if article.get_img() %}
-    <img src="{{article.get_img()}}" width="400px" alt="">
-{% endif %}
-<p>{{ article.get_text() }}</p>
-<p>Автор: {{ article.get_author().get_nickname() }}</p>
-<a href="/articles">Все статьи</a>
+
+<div class="container">
+    <!-- <div class="row"> -->
+        
+        <p><a href="/articles">Все статьи</a></p>
+        <h1>{{article.get_name()}}</h1>
+        {% if article.get_img() %}
+            <img src="{{article.get_img()}}" width="400px" alt="">
+        {% endif %}
+        <p>{{ article.get_text() }}</p>
+        <p>Автор: {{ article.get_author().get_nickname() }}</p>
+        <p>
+            <a href="/article/{{article.get_id()}}/edit" class="btn btn-success">Редактировать</a>
+            <a href="/article/{{article.get_id()}}/delete" class="btn btn-warning">Удалить</a>
+        </p>
+    <!-- </div> -->
+</div>
