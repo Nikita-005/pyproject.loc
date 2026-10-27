@@ -1,5 +1,6 @@
 from controllers.site_controller import SiteController
 from controllers.articles_controller import ArticlesController
+from controllers.api.articles_api_controller import ArticlesApiController
 from controllers.users_controller import UsersController
 
 routes = {
@@ -15,4 +16,7 @@ routes = {
     r"^/$" : [SiteController, SiteController.index],
     r"^/about$" : [SiteController, SiteController.about],
     r"^/hello/(.*)$" : [SiteController, SiteController.hello],
+
+    # r"^/api/articles$" : [ArticlesApiController, ArticlesApiController.index],
+    r"^/api/articles$" : [ArticlesApiController,  {'GET' : ArticlesApiController.index, 'POST': ArticlesApiController.add}], 
 }

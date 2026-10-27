@@ -70,6 +70,9 @@ class ActiveRecordEntity(metaclass = ABCMeta):
         db.connection.commit()
         db.connection.close()
 
+    def to_dict(self):
+        return self.map_properties_to_db_format()
+
     @classmethod
     def find_all(cls):
         db = Db()

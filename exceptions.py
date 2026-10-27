@@ -7,3 +7,5 @@ class InvalidArgumentException(Exception):
 
 class UnauthorizedException(Exception):
     pass
+class InvalidMethodException(Exception):
+    pass
